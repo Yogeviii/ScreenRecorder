@@ -35,37 +35,23 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   return false;
 });
 
-async function startRecording({ streamId, settings, metadata }) {
+async function startRecording({ streamId, settings, metadata, captureSource = 'tab' }) {
   if (mediaRecorder?.state === 'recording') {
     throw new Error('A recording is already running.');
   }
 
-  startedAt = metadata?.startedAt || Date.now();
   tabTitle = metadata?.tabTitle || 'Chrome tab';
   recorderChunks = [];
   totalBytes = 0;
   debugLog('offscreen start received');
 
-  sourceStream = await navigator.mediaDevices.getUserMedia({
-    audio: settings.audio
-      ? {
-          mandatory: {
-            chromeMediaSource: 'tab',
-            chromeMediaSourceId: streamId
-          }
-        }
-      : false,
-    video: {
-      mandatory: {
-        chromeMediaSource: 'tab',
-        chromeMediaSourceId: streamId,
-        maxFrameRate: settings.fps
-      }
-    }
-  });
+  sourceStream = captureSource === 'display'
+    ? await getDisplayStream(settings)
+    : await getTabStream(streamId, settings);
+  startedAt = metadata?.startedAt || Date.now();
   debugLog(describeStream(sourceStream));
 
-  keepTabAudioAudible(sourceStream, settings.audio);
+  keepTabAudioAudible(sourceStream, settings.audio && captureSource === 'tab');
   recordingStream = sourceStream;
 
   const mimeType = pickMimeType();
@@ -94,7 +80,38 @@ async function startRecording({ streamId, settings, metadata }) {
   mediaRecorder.start(1000);
 
   chrome.runtime.sendMessage({ type: 'recording-started' });
-  return { ok: true };
+  return { ok: true, startedAt };
+}
+
+async function getDisplayStream(settings) {
+  debugLog('opening screen/window picker');
+
+  return navigator.mediaDevices.getDisplayMedia({
+    audio: Boolean(settings.audio),
+    video: {
+      frameRate: Number(settings.fps || 30)
+    }
+  });
+}
+
+async function getTabStream(streamId, settings) {
+  return navigator.mediaDevices.getUserMedia({
+    audio: settings.audio
+      ? {
+          mandatory: {
+            chromeMediaSource: 'tab',
+            chromeMediaSourceId: streamId
+          }
+        }
+      : false,
+    video: {
+      mandatory: {
+        chromeMediaSource: 'tab',
+        chromeMediaSourceId: streamId,
+        maxFrameRate: settings.fps
+      }
+    }
+  });
 }
 
 async function stopRecording() {
@@ -216,12 +233,12 @@ function formatTimestamp(timestamp) {
 }
 
 function safeName(value) {
-  return (value || 'chrome-tab-recording')
+  return (value || 'screen-recording')
     .replace(/[<>:"/\\|?*\x00-\x1F]/g, '')
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-')
     .slice(0, 80)
-    || 'chrome-tab-recording';
+    || 'screen-recording';
 }
 
 function describeStream(stream) {
