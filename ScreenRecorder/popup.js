@@ -1,4 +1,5 @@
 const DEFAULT_SETTINGS = {
+  captureMode: 'display',
   resolution: 'source',
   fps: 30,
   bitrateMbps: 8,
@@ -9,6 +10,7 @@ const statusDot = document.querySelector('#statusDot');
 const statusTitle = document.querySelector('#statusTitle');
 const statusText = document.querySelector('#statusText');
 const timer = document.querySelector('#timer');
+const captureMode = document.querySelector('#captureMode');
 const resolution = document.querySelector('#resolution');
 const fps = document.querySelector('#fps');
 const audio = document.querySelector('#audio');
@@ -43,6 +45,10 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
   if (changes.recorderDebug) {
     renderDebug(changes.recorderDebug.newValue || []);
   }
+
+  if (changes.recorderSettings && !currentState.recording) {
+    render({ ...currentState, settings: changes.recorderSettings.newValue });
+  }
 });
 
 init();
@@ -61,7 +67,7 @@ async function init() {
 }
 
 async function startRecording() {
-  setBusy('Starting', 'Requesting access to the current tab...');
+  setBusy('Starting', getStartingText());
 
   try {
     const response = await chrome.runtime.sendMessage({ type: 'start-recording' });
@@ -101,6 +107,7 @@ function render(state = { recording: false, status: 'idle' }) {
   const settings = state.settings || DEFAULT_SETTINGS;
 
   statusDot.className = `status-dot ${state.status || ''}`;
+  captureMode.textContent = settings.captureMode === 'tab' ? 'Tab' : 'Window';
   resolution.textContent = settings.resolution || DEFAULT_SETTINGS.resolution;
   fps.textContent = String(settings.fps || DEFAULT_SETTINGS.fps);
   audio.textContent = settings.audio === false ? 'Off' : 'On';
@@ -119,7 +126,7 @@ function render(state = { recording: false, status: 'idle' }) {
   stopTimer();
 
   if (state.status === 'starting') {
-    setBusy('Starting', 'Requesting access to the current tab...');
+    setBusy('Starting', getStartingText(settings));
     return;
   }
 
@@ -146,7 +153,9 @@ function render(state = { recording: false, status: 'idle' }) {
 
   statusDot.className = 'status-dot';
   statusTitle.textContent = 'Ready';
-  statusText.textContent = 'Record the current tab.';
+  statusText.textContent = settings.captureMode === 'tab'
+    ? 'Record the current tab.'
+    : 'Record a Chrome window or screen.';
   timer.textContent = '00:00';
 }
 
@@ -157,6 +166,12 @@ function setBusy(title, text) {
   statusDot.className = `status-dot ${title === 'Saving' ? 'saving' : ''}`;
   statusTitle.textContent = title;
   statusText.textContent = text;
+}
+
+function getStartingText(settings = currentState.settings || DEFAULT_SETTINGS) {
+  return settings.captureMode === 'tab'
+    ? 'Requesting access to the current tab...'
+    : 'Choose the Chrome window or entire screen to record...';
 }
 
 function startTimer(startedAt) {

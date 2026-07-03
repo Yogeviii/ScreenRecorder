@@ -1,5 +1,5 @@
 body {
-  width: 340px;
+  width: 370px;
   min-height: 430px;
   background: #11171d;
   color: #f7fafc;
@@ -62,7 +62,7 @@ p {
 
 .details {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   margin: 0;
 }

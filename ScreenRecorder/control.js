@@ -1,6 +1,7 @@
 const timer = document.querySelector('#timer');
 const statusTitle = document.querySelector('#statusTitle');
 const tabTitle = document.querySelector('#tabTitle');
+const captureMode = document.querySelector('#captureMode');
 const resolution = document.querySelector('#resolution');
 const fps = document.querySelector('#fps');
 const audio = document.querySelector('#audio');
@@ -49,6 +50,7 @@ async function init() {
 
   startedAt = state.startedAt || Date.now();
   tabTitle.textContent = state.tabTitle || 'Chrome tab';
+  captureMode.textContent = state.settings?.captureMode === 'tab' ? 'Tab' : 'Window';
   resolution.textContent = state.settings?.resolution || '1080p';
   fps.textContent = state.settings?.fps || '30';
   audio.textContent = state.settings?.audio ? 'On' : 'Off';

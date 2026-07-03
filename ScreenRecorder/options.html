@@ -16,6 +16,18 @@
 
       <form id="settingsForm">
         <fieldset>
+          <legend>Capture area</legend>
+          <label>
+            <input type="radio" name="captureMode" value="display">
+            <span>Window / screen</span>
+          </label>
+          <label>
+            <input type="radio" name="captureMode" value="tab">
+            <span>Current tab</span>
+          </label>
+        </fieldset>
+
+        <fieldset>
           <legend>Resolution</legend>
           <label>
             <input type="radio" name="resolution" value="source">
@@ -46,7 +58,7 @@
 
         <label class="toggle">
           <input id="audio" name="audio" type="checkbox">
-          <span>Record tab audio</span>
+          <span>Record audio when available</span>
         </label>
 
         <button type="submit">Save</button>

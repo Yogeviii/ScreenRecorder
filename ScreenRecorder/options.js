@@ -1,5 +1,6 @@
 const SETTINGS_KEY = 'recorderSettings';
 const DEFAULT_SETTINGS = {
+  captureMode: 'display',
   resolution: 'source',
   fps: 30,
   bitrateMbps: 8,
@@ -16,6 +17,7 @@ form.addEventListener('submit', async (event) => {
 
   const formData = new FormData(form);
   const settings = {
+    captureMode: formData.get('captureMode') || DEFAULT_SETTINGS.captureMode,
     resolution: formData.get('resolution') || DEFAULT_SETTINGS.resolution,
     fps: Number(formData.get('fps') || DEFAULT_SETTINGS.fps),
     bitrateMbps: Number(formData.get('bitrateMbps') || DEFAULT_SETTINGS.bitrateMbps),
@@ -33,6 +35,7 @@ async function loadSettings() {
   const { [SETTINGS_KEY]: saved } = await chrome.storage.local.get(SETTINGS_KEY);
   const settings = { ...DEFAULT_SETTINGS, ...(saved || {}) };
 
+  form.elements.captureMode.value = settings.captureMode;
   form.elements.resolution.value = settings.resolution;
   form.elements.fps.value = String(settings.fps);
   form.elements.bitrateMbps.value = String(settings.bitrateMbps);
