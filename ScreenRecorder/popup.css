@@ -1,0 +1,138 @@
+body {
+  width: 340px;
+  min-height: 430px;
+  background: #11171d;
+  color: #f7fafc;
+}
+
+.popup-shell {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+}
+
+.status {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.status-dot {
+  width: 11px;
+  height: 11px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: #8aa0ad;
+}
+
+.status-dot.recording {
+  background: #ee4056;
+  box-shadow: 0 0 0 7px rgba(238, 64, 86, 0.16);
+}
+
+.status-dot.saving {
+  background: #f6b44b;
+}
+
+.status-dot.error {
+  background: #ff5c74;
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+p {
+  min-height: 38px;
+  margin: 6px 0 0;
+  color: #b9c5ce;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.timer {
+  font-size: 48px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.details div {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+dt {
+  margin-bottom: 6px;
+  color: #84939f;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+dd {
+  margin: 0;
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+button.primary {
+  width: 100%;
+  background: #2c7a7b;
+  color: #ffffff;
+}
+
+button.primary.stop {
+  background: #ee4056;
+}
+
+button.primary:disabled {
+  cursor: wait;
+  opacity: 0.75;
+}
+
+.link-button {
+  min-height: 28px;
+  background: transparent;
+  color: #9fb2bf;
+  font-size: 13px;
+}
+
+.debug-panel {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 10px;
+  color: #9fb2bf;
+  font-size: 12px;
+}
+
+.debug-panel summary {
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.debug-panel pre {
+  max-height: 110px;
+  margin: 8px 0 0;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #cdd7df;
+  font: 11px/1.4 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+}

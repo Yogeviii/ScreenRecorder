@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Screen Recorder</title>
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="popup-shell">
+      <section class="status">
+        <span class="status-dot" id="statusDot" aria-hidden="true"></span>
+        <div>
+          <h1 id="statusTitle">Ready</h1>
+          <p id="statusText">Record the current tab.</p>
+        </div>
+      </section>
+
+      <div class="timer" id="timer">00:00</div>
+
+      <dl class="details">
+        <div>
+          <dt>Resolution</dt>
+          <dd id="resolution">1080p</dd>
+        </div>
+        <div>
+          <dt>FPS</dt>
+          <dd id="fps">30</dd>
+        </div>
+        <div>
+          <dt>Audio</dt>
+          <dd id="audio">On</dd>
+        </div>
+      </dl>
+
+      <button class="primary" id="primaryButton" type="button">Start Recording</button>
+      <button class="link-button" id="optionsButton" type="button">Options</button>
+
+      <details class="debug-panel">
+        <summary>Debug</summary>
+        <pre id="debugLog">No debug events yet.</pre>
+      </details>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

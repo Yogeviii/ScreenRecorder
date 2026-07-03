@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recorder Options</title>
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="options.css">
+  </head>
+  <body>
+    <main class="options-shell">
+      <header>
+        <h1>Recording Options</h1>
+        <p>Saved locally in Chrome.</p>
+      </header>
+
+      <form id="settingsForm">
+        <fieldset>
+          <legend>Resolution</legend>
+          <label>
+            <input type="radio" name="resolution" value="source">
+            <span>Source</span>
+          </label>
+        </fieldset>
+
+        <div class="field-grid">
+          <label class="field">
+            <span>Frames per second</span>
+            <select id="fps" name="fps">
+              <option value="24">24</option>
+              <option value="30">30</option>
+              <option value="60">60</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Video bitrate</span>
+            <select id="bitrateMbps" name="bitrateMbps">
+              <option value="4">4 Mbps</option>
+              <option value="8">8 Mbps</option>
+              <option value="12">12 Mbps</option>
+              <option value="20">20 Mbps</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="toggle">
+          <input id="audio" name="audio" type="checkbox">
+          <span>Record tab audio</span>
+        </label>
+
+        <button type="submit">Save</button>
+        <p class="saved" id="savedMessage" role="status"></p>
+      </form>
+    </main>
+
+    <script src="options.js"></script>
+  </body>
+</html>

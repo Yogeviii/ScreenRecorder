@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recorder</title>
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="control.css">
+  </head>
+  <body>
+    <main class="control-shell">
+      <section class="status-row">
+        <span class="status-dot" aria-hidden="true"></span>
+        <div>
+          <h1 id="statusTitle">Recording</h1>
+          <p id="tabTitle">Chrome tab</p>
+        </div>
+      </section>
+
+      <div class="timer" id="timer">00:00</div>
+
+      <dl class="stats">
+        <div>
+          <dt>Resolution</dt>
+          <dd id="resolution">1080p</dd>
+        </div>
+        <div>
+          <dt>FPS</dt>
+          <dd id="fps">30</dd>
+        </div>
+        <div>
+          <dt>Audio</dt>
+          <dd id="audio">On</dd>
+        </div>
+      </dl>
+
+      <div class="actions">
+        <button class="danger" id="stopButton" type="button">Stop</button>
+        <button class="ghost" id="optionsButton" type="button">Options</button>
+      </div>
+    </main>
+
+    <script src="control.js"></script>
+  </body>
+</html>

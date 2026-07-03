@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Offline Tab Screen Recorder",
+  "description": "Record the active Chrome tab locally and download the recording as a WebM file.",
+  "version": "1.0.1",
+  "minimum_chrome_version": "116",
+  "action": {
+    "default_title": "Screen recorder",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_page": "options.html",
+  "permissions": [
+    "activeTab",
+    "downloads",
+    "offscreen",
+    "storage",
+    "tabCapture",
+    "tabs"
+  ]
+}
